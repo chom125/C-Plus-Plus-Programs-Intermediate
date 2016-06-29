@@ -1,0 +1,67 @@
+/* This C++ program uses pointers, to find the max of an 
+integral data set. The program will ask the user to input 
+the number of data values in the set and each value. 
+Then the program will show the max of the data set. 
+See example below.  This C++ program will use a function 
+that accepts the array of data values and its size. The 
+return from the function is the pointer that points to the 
+max value.
+
+  Enter number of data values: 3
+
+  Enter value 1: 21
+
+  Enter value 2: 12
+
+  Enter value 3: 4
+
+  The max is 21. 
+
+  Result: 2/9
+  */
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+int *findMax(int arr[], int n);
+
+int main(){
+	
+	int n, i, *p;
+	cout<<"Enter number of data vazlues"<<endl;
+	cin>>n;
+	
+	int arr[n];
+	
+	for(i=0;i<n;i++){
+		
+		cout<<"Enter value"<<i+1<<":"<<endl;
+		cin>>arr[i];
+		
+		}
+	
+	 p=findMax(arr,n);
+	 cout<<"The max value is:"<<*p;
+	 getch();
+	 return 0;
+	
+	}
+  
+    int *findMax(int data[], int n){
+    	
+    	int *max=data;
+    	
+    	int i;
+    	
+    	for(i=1;i<n;i++){
+    		
+    		if(*max<*(max+i))*max=*(max+i);
+    			
+    	}
+    		
+		return max;	
+    	
+    	
+	}
+   
