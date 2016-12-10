@@ -1,0 +1,55 @@
+/*
+The following instructions are given for this program:
+
+Write a recursive function that takes as a parameter a nonnegative integer and generates the following pattern of stars. 
+If the nonnegative integer is 4, then the pattern generated is: 
+
+                      **** 
+																						*** 
+																						** 
+																						* 
+																						* 
+																						** 
+																						*** 
+																						**** 
+
+Also, write a program that prompts the user to enter the number of lines in the pattern and uses the recursive function to 
+generate the pattern. For example, specifying 4 as the number of lines generates the above pattern.
+*/
+#include <iostream>
+using namespace std;
+
+void printStars(int lines);
+
+int main()
+{ 
+    int lines;
+
+    cout << "Enter the number of lines in the grid: ";
+    cin >> lines;
+    cout << endl;
+	
+    printStars(lines);
+
+    cout << endl;
+
+    return 0;
+}
+
+void printStars(int lines)
+{
+    int i;
+
+    if (lines > 0)
+    {
+        for (i = 0; i < lines; i++)
+            cout << "*";
+        cout << endl;
+
+        printStars(lines - 1);
+
+        for (i = 0; i < lines; i++)
+            cout << "*";
+        cout << endl;
+    }
+}
