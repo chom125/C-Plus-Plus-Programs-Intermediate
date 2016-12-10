@@ -1,0 +1,268 @@
+/*
+Lawrence Woods
+11/30/2016
+Final Project
+
+*/
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <Windows.h>
+using namespace std;
+//global constant
+const HANDLE out_hand = GetStdHandle(STD_OUTPUT_HANDLE);
+class rect_Shape
+{
+
+   public:
+   //set direction
+   virtual void set_dir(int rw, int cl)
+   {
+
+       Rw = rw;
+       Cl = cl;
+   }
+   //get direction
+   void getDirection(int &rw, int &cl)
+   {
+       rw = Rw;
+       cl = Cl;
+   }
+   virtual void motion() = 0;
+   private:
+   // Direction of motion
+   int Rw, Cl;
+};
+class drawShape : public rect_Shape
+{
+   public:
+   virtual void draw_shape() = 0;
+   //get position
+   void getPosition(int &row, int &col)
+   {
+       row = row_Position;
+       col = col_Position;
+   }
+   //set position
+   void setPosition(int row, int col)
+   {
+       row_Position = row;
+       col_Position = col;
+   }
+   //set color
+   void setColor(int col)
+   {
+       color = col;
+   }
+   //get color
+
+   int getColor()
+
+   {
+
+       return color;
+
+   }
+
+   virtual void motion();
+
+   // data members
+
+   private:
+
+   int color;
+
+   int row_Position, col_Position;
+
+};
+
+class rectangle : public drawShape
+
+{
+
+   public:
+
+   // member functions
+
+   virtual void draw_shape();
+
+   rectangle(int row_Position, int col_Position, int wid, int hgt, int color);
+
+   private:
+
+   //data members
+
+   int wid, hgt;
+
+};
+
+// function to move rectangle
+
+void drawShape::motion()
+
+{
+   //motion direction
+
+   int Rw, Cl;
+
+   int color_saved = color;
+
+   //color 0 erases the shape
+
+   color = 0;
+
+   draw_shape();
+
+   //compute new position
+
+   getDirection(Rw, Cl);
+
+   // Increment row_position
+
+   row_Position += Rw;
+   // Increment coloumn position
+
+   col_Position += Cl;
+
+
+   color = color_saved;
+
+   draw_shape();
+
+}
+
+
+//Constructor
+
+rectangle::rectangle(int row_Position, int col_Position, int wid, int hgt,int color)
+
+{
+
+   setColor(color);
+
+   setPosition(row_Position, col_Position);
+
+   this->wid = wid;
+
+   this->hgt = hgt;
+
+   draw_shape();
+
+}
+
+
+//Draws a rectangle shape
+
+void rectangle::draw_shape()
+
+{
+
+   int row_Position, col_Position;
+
+   COORD pos;
+
+
+   SetConsoleTextAttribute(out_hand, getColor());
+
+   getPosition(row_Position, col_Position);
+
+   pos.X = col_Position;
+
+   pos.Y = row_Position;
+
+   // Fill rectangle with *
+   for(int r = 0; r < hgt; r++)
+
+   {
+
+       SetConsoleCursorPosition(out_hand, pos);
+
+       for( int c = 0; c < wid; c++)
+
+       cout<< "*";
+
+       cout<<endl;
+
+       pos.Y++;
+
+   }
+
+
+   SetConsoleTextAttribute(out_hand, 7);
+
+}
+
+int main()
+
+{
+
+   //Creates two rectangles
+
+   rectangle rect1(5, 0, 10, 5, 14);
+
+   rectangle rect2(5, 70, 10, 5, 10);
+
+   int meet = 0;
+   int j=0;
+
+   int dir1 = -1, dir2 = 1;
+
+   // draw rectangle
+   rect1.draw_shape();
+
+   rect2.draw_shape();
+
+   do
+
+   {
+
+       // On meeting move in opposite direction
+
+       dir1 = -dir1; dir2 = -dir2;
+
+       //Set the directions
+
+       rect1.set_dir(0, dir1);
+
+       rect2.set_dir(0, dir2);
+
+       for( int i = 0; i < 30; i++)
+
+       {
+
+           Sleep(100);
+
+           rect1.motion();
+
+           rect2.motion();
+
+       }
+
+       meet++;
+
+       COORD pos;
+
+       pos.X = 5;
+
+       pos.Y = 15;
+
+       SetConsoleCursorPosition(out_hand, pos);
+  
+       int k=meet;
+  
+       // If the meeting is at middle since meet also count meeting at boundaries
+
+       if(((k+1)%2)==0)
+       {
+           j++;
+           cout<<"Meet: "<<j<<endl;
+       }
+
+   }while(meet < 19);
+  
+   system("pause");
+
+   return 0;
+
+}
