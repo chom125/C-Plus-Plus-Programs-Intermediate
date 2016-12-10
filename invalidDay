@@ -1,0 +1,28 @@
+
+#include <iostream>
+#include <string> 
+ 
+using namespace std;
+ 
+class invalidDay
+{ 
+public: 
+    invalidDay()
+	{
+		message = "Day must be between 1 and 31."; 
+	}
+
+    invalidDay(string str)
+    {
+        message = str;
+    }
+
+	string what()
+	{
+		return message; 
+	} 
+
+private:
+	string message;
+}; 
+
