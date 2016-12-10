@@ -1,0 +1,27 @@
+
+#include <iostream>
+#include <string> 
+ 
+using namespace std;
+ 
+class invalidMonth
+{ 
+public: 
+    invalidMonth()
+	{
+		message = "The month must be between 1 and 12."; 
+	}
+
+	invalidMonth(string str)
+	{
+		message = str;
+	}
+
+	string what()
+	{
+		return message; 
+	} 
+
+private:
+	string message;
+}; 
