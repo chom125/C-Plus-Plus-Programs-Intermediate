@@ -1,0 +1,140 @@
+/* 
+This program streams values into varibles int, double, and string.
+The program then reads the values into variables of the appropriate data type with with stream.
+The values are written as 3 values at differnt times in the program to the stream value. 
+The program also requires the use of CppUnitLite. CppUnitLite test verifies std::stringstream.
+These test will follow a specific pattern shown in the lesson 1 discussion. The use stringstream
+is used instead of atoi and sprintf.
+Three separate test are written:
+1. read and write a double using stringstream, 
+2. read and write a float
+3. read and write a string
+I. Initializes a stringstream with the "Hello". Attempt to stream this value into an int variable. 
+II. Write a check that verifies this fails. Use CHECK_DOUBLES_EQUAL for float types and CHECK_EQUAL for other types.
+III. Write a CppUnitLite test that uses new to allocate an array of 10 integers. Initialize the array with the 
+values 0 to 9. Use CHECK_EQUAL to verify the array has the correct values. Use delete to deallocate the array.
+IV. Write a CppUnitLite test that creates a std::vector of int. Add 10 integers to the vector with the values 
+0-9. Use CHECK_EQUAL to verify the vector has the correct values.
+*/
+
+//Include TestHarness.h test file
+#include "TestHarness.h"
+//include sstream
+#include <sstream>
+//include strings
+#include <string>
+/*Function TEST of toDouble to be streamed.
+*/
+//Firs test to test doubles.
+TEST(toDouble, stringstream)
+//stream string sValue
+{
+//Actual sValue string to be streamed. 
+    std::stringstream sValue("3.14159");
+//initializing double value. 
+	double value;
+//bitwise operation to move decimal value number of spaces to the right. 
+//This is the conversion value.
+    sValue >> value;
+//If not equal to sValue "conversion failed".
+	if (!sValue)
+    {
+        CHECK_FAIL("conversion failed");
+    }
+//check double value.
+    CHECK_DOUBLES_EQUAL(3.141589, value, .000001);
+}
+//Continuation of first text. 
+
+TEST(fromDouble, stringstream)
+{
+    double value = 2.71828;
+//stream string sValue.
+	std::stringstream sValue;
+//Bitwise operation moving decimal to the left by value. 
+
+    sValue << value;
+
+    if (!sValue)
+    {
+        CHECK_FAIL("conversion failed");
+    }
+
+    CHECK_EQUAL("2.71828", sValue.str());
+}
+//II Second Test, test for float value. 
+TEST(toFloat, stringstream)
+{
+    std::stringstream sValue("3.14159");
+    float value;
+
+    sValue >> value;
+
+    if (!sValue)
+    {
+        CHECK_FAIL("conversion failed");
+    }
+
+    CHECK_DOUBLES_EQUAL(3.14159, value, .000001);
+}
+//Continuation of second test. 
+TEST(fromFloat, stringstream)
+{
+    float value = 2.71828f;
+	std::stringstream sValue;
+
+    sValue << value;
+
+    if (!sValue)
+    {
+        CHECK_FAIL("conversion failed");
+    }
+
+    CHECK_EQUAL("2.71828", sValue.str());
+}
+//Third Test for string. Function Test to stream strings.
+TEST(toString, stringstream)
+{
+    std::stringstream sValue("Euler");
+    std::string value;
+    sValue >> value;
+
+    CHECK_EQUAL("Euler", value);
+}
+
+//Continuation of third test. 
+TEST(fromString, stringstream)
+{
+    std::string value("pi");
+	std::stringstream sValue;
+    sValue << value;
+
+    CHECK_EQUAL("pi", sValue.str());
+}
+
+TEST(toChar, stringstream)
+{
+    std::stringstream sValue("Euler");
+    char value;
+    sValue >> value;
+
+    CHECK_EQUAL('E', value);
+}
+
+TEST(fromChar, stringstream)
+{
+    char value = 'q';
+	std::stringstream sValue;
+    sValue << value;
+
+    CHECK_EQUAL("q", sValue.str());
+}
+
+TEST(errorDetection, stringstream)
+{
+    std::stringstream sValue("Hello");
+    int value;
+    sValue >> value;
+
+	CHECK(!sValue);
+}
